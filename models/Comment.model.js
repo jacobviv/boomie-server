@@ -3,10 +3,6 @@ const mongoose = require('mongoose')
 
 const commentSchema = new Schema(
     {
-        battle: {
-            type: String,
-            required: [true, 'Battle ID is required.']
-        },
         text: {
             type: String,
             trim: true,

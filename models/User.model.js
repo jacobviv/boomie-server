@@ -32,6 +32,14 @@ const userSchema = new Schema(
       ref: 'Battle',
       type: Schema.Types.ObjectId
     }],
+    books: [{
+      ref: 'Book',
+      type: Schema.Types.ObjectId
+    }],
+    movies: [{
+      ref: 'Movie',
+      type: Schema.Types.ObjectId
+    }],
     comments: [{
       ref: 'Comment',
       type: Schema.Types.ObjectId

@@ -13,7 +13,7 @@ router.get("/getAllBattles", (req, res, next) => {
 })
 
 
-router.get("/getOneBattle/:Battle_id", (req, res, next) => {
+router.get("/details/:Battle_id", (req, res, next) => {
 
   const { Battle_id } = req.params
 
@@ -26,48 +26,34 @@ router.get("/getOneBattle/:Battle_id", (req, res, next) => {
 
 router.post("/saveBattle", (req, res, next) => {
 
-  const {
-    name,
-    bookID,
-    bookTitle,
-    bookAuthor,
-    bookRating,
-    bookCover,
-    bookLanguage,
-    bookFirstSentence,
-    bookPublishingDate,
-    movieID,
-    movieTitle,
-    movieDirector,
-    movieRating,
-    moviePoster,
-    movieLanguage,
-    movieOverview,
-    movieReleaseDate
-  } = req.body
+  const { name, bookID, movieID } = req.body
 
   Battle
-    .create({
-      name,
-      bookID,
-      bookTitle,
-      bookAuthor,
-      bookRating,
-      bookCover,
-      bookLanguage,
-      bookFirstSentence,
-      bookPublishingDate,
-      movieID,
-      movieTitle,
-      movieDirector,
-      movieRating,
-      moviePoster,
-      movieLanguage,
-      movieOverview,
-      movieReleaseDate
-    })
+    .create({ name, bookID, movieID })
     .then(response => res.json(response))
     .catch(err => next(err))
 })
+
+router.put('/edit/:Battle_id', (req, res, next) => {
+
+  const { name, bookID, movieID } = req.body
+  const { Battle_id } = req.params
+
+  Battle
+    .findByIdAndUpdate(Battle_id, { name, bookID, movieID })
+    .then(response => res.json(response))
+    .catch(err => next(err))
+})
+
+router.delete('/delete/:Battle_id', (req, res, next) => {
+
+  const { Battle_id } = req.params
+
+  Battle
+    .findByIdAndDelete(Battle_id)
+    .then(response => res.json(response))
+    .catch(err => next(err))
+})
+
 
 module.exports = router

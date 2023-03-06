@@ -4,8 +4,8 @@ const bcrypt = require('bcryptjs')
 const User = require("../models/User.model")
 const saltRounds = 10
 
-// const jwt = require('jsonwebtoken')
-// const { verifyToken } = require("../middlewares/verifyToken")
+const jwt = require('jsonwebtoken')
+const { verifyToken } = require("../middlewares/verifyToken")
 
 router.post('/signup', (req, res, next) => {
 
@@ -34,47 +34,51 @@ router.post('/signup', (req, res, next) => {
         .catch(err => next(err))
 })
 
-// router.post('/login', (req, res, next) => {
 
-//     const { email, password } = req.body;
+router.post('/login', (req, res, next) => {
 
-//     if (email === '' || password === '') {
-//         res.status(400).json({ message: "Provide email and password." });
-//         return;
-//     }
+    const { email, password } = req.body
 
-//     User
-//         .findOne({ email })
-//         .then((foundUser) => {
+    if (email === '' || password === '') {
+        res.status(400).json({ message: "Provide email and password." })
+        return
+    }
 
-//             if (!foundUser) {
-//                 res.status(401).json({ message: "User not found." })
-//                 return;
-//             }
+    User
+        .findOne({ email })
+        .then((foundUser) => {
 
-//             if (bcrypt.compareSync(password, foundUser.password)) {
+            if (!foundUser) {
+                res.status(401).json({ message: "User not found." })
+                return
+            }
 
-//                 const { _id, email, username } = foundUser;
-//                 const payload = { _id, email, username }
+            if (bcrypt.compareSync(password, foundUser.password)) {
 
-//                 const authToken = jwt.sign(
-//                     payload,
-//                     process.env.TOKEN_SECRET,
-//                     { algorithm: 'HS256', expiresIn: "6h" }
-//                 )
+                const { _id, email, username, avatar, role, battles, books, movies, comments } = foundUser
+                // desestructuramos el foundUser
+                const payload = { _id, email, username, avatar, role, battles, books, movies, comments }
+                // payload = Información que tenemos en cliente para renderizado condicional
 
-//                 res.status(200).json({ authToken })
-//             }
-//             else {
-//                 res.status(401).json({ message: "Incorrect password" });
-//             }
+                const authToken = jwt.sign(
+                    payload,
+                    process.env.TOKEN_SECRET,
+                    { algorithm: 'HS256', expiresIn: "2h" }
+                )
 
-//         })
-//         .catch(err => next(err));
-// })
+                res.status(200).json({ authToken })
+            }
+            else {
+                res.status(401).json({ message: "Unable to authenticate the user" })
+                // contraseña no válida
+            }
 
-// router.get('/verify', verifyToken, (req, res, next) => {
-//     res.json(req.payload)
-// })
+        })
+        .catch(err => next(err))
+})
+
+router.get('/verify', verifyToken, (req, res, next) => {
+    res.json(req.payload)
+})
 
 module.exports = router
