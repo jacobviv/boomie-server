@@ -7,7 +7,7 @@ router.get("/getAllBattles", (req, res, next) => {
   Battle
     .find()
     .sort({ name: 1 })
-    .select({ name: 1, bookRating: 1, movieRating: 1, owner: 1 })
+    .select({ name: 1, bookID: 1, movieID: 1, owner: 1 })
     .then(response => setTimeout(() => res.json(response), 1000))  // De momento aquí hasta implementar el spinner
     .catch(err => next(err))
 })

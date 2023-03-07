@@ -28,10 +28,10 @@ Base URL `/api/battles`
 | ----------- | -------------------------- | -------------------- |
 | GET         | `/getAllBattles`           | All Battles          |x
 <!-- | GET         | `/search?name={query}`     | Search by name       | -->
-| GET         | `/details/:id`             | Get one Battle by ID |x
+| GET         | `/details/:battle_id`      | Get one Battle by ID |x
 | POST        | `/saveBattle`              | Create new Battle    |x
-| PUT         | `/edit/:id`                | Battle edit by ID    |x
-| DELETE      | `/delete/:id`              | Battle delete by ID  |x
+| PUT         | `/edit/:battle_id`         | Battle edit by ID    |x
+| DELETE      | `/delete/:battle_id`       | Battle delete by ID  |x
 
 ## Book routes
 
@@ -41,10 +41,10 @@ Base URL `/api/books`
 | ----------- | -------------------------- | ------------------ |
 | GET         | `/getAllBooks`             | All Books          |x
 <!-- | GET         | `/search?name={query}`     | Search by name     | -->
-| GET         | `/details/:id`             | Get one Book by ID |x
+| GET         | `/details/:book_id`        | Get one Book by ID |x
 | POST        | `/saveBook`                | Create new Book    |x
-| PUT         | `/edit/:id`                | Book edit by ID    |x
-| DELETE      | `/delete/:id`              | Book delete by ID  |x
+| PUT         | `/edit/:book_id`           | Book edit by ID    |x
+| DELETE      | `/delete/:book_id`         | Book delete by ID  |x
 
 ## Movie routes
 
@@ -54,8 +54,8 @@ Base URL `/api/movies`
 | ----------- | -------------------------- | ------------------- |
 | GET         | `/getAllMovies`            | All Movies          |x
 <!-- | GET         | `/search?name={query}`     | Search by name      | -->
-| GET         | `/details/:id`             | Get one Movie by ID |x
+| GET         | `/details/:movie_id`       | Get one Movie by ID |x
 | POST        | `/saveMovie`               | Create new Movie    |x
-| PUT         | `/edit/:id`                | Movie edit by ID    |x
-| DELETE      | `/delete/:id`              | Movie delete by ID  |x
+| PUT         | `/edit/:movie_id`          | Movie edit by ID    |x
+| DELETE      | `/delete/:movie_id`        | Movie delete by ID  |x
 
