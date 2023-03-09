@@ -3,7 +3,7 @@ const router = require("express").Router()
 const User = require('./../models/User.model')
 
 
-router.get("/details/:User_id", (req, res, next) => {
+router.get("/details/:id", (req, res, next) => {
 
     const { User_id } = req.params
 
@@ -13,7 +13,7 @@ router.get("/details/:User_id", (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.put('/edit/:User_id', (req, res, next) => {
+router.put('/edit/:id', (req, res, next) => {
 
     const { username, email, avatar } = req.body
     const { User_id } = req.params
@@ -24,7 +24,7 @@ router.put('/edit/:User_id', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.delete('/delete/:User_id', (req, res, next) => {
+router.delete('/delete/:id', (req, res, next) => {
 
     const { User_id } = req.params
 
