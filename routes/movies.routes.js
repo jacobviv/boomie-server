@@ -8,7 +8,7 @@ router.get("/getAllMovies", (req, res, next) => {
     .find()
     .sort({ name: 1 })
     .select({ name: 1, movieRating: 1, owner: 1 })
-    .then(response => setTimeout(() => res.json(response), 1000))  // De momento aquí hasta implementar el spinner
+    .then(response => res.json(response))
     .catch(err => next(err))
 })
 
