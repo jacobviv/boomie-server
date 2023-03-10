@@ -1,26 +1,28 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require("mongoose")
+const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema(
   {
     username: {
       type: String,
       trim: true,
-      required: [true, 'El nombre de usuario es obligatorio']
+      required: [true, 'Username is required.']
     },
     email: {
       type: String,
-      unique: true,
-      required: [true, 'El email de usuario es obligatorio'],
+      unique: [true, 'User already exists.'],
+      required: [true, 'User email is required.'],
       lowercase: true,
       trim: true
     },
     password: {
       type: String,
-      required: [true, 'La contraseña de usuario es obligatoria']
+      required: [true, 'User password is required.'],
+      minlength: [2, 'Password must have at least 3 characters.']
     },
     avatar: {
       type: String,
-      required: [false, 'La imagen de avatar se ha personalizado'],
+      required: [false, 'Avatar image has been saved.'],
       default: "https://avatars.trackercdn.com/api/avatar/2/TrapOutTheLando.png",
       set: value => value === '' ? "https://avatars.trackercdn.com/api/avatar/2/TrapOutTheLando.png" : value
     },
@@ -50,6 +52,17 @@ const userSchema = new Schema(
     timestamps: true
   }
 )
+
+userSchema.pre('save', function (next) {
+
+  const saltRounds = 10
+  const salt = bcrypt.genSaltSync(saltRounds)
+  const hashedPassword = bcrypt.hashSync(this.password, salt)
+  this.password = hashedPassword
+
+  next()
+})
+
 
 const User = model("User", userSchema)
 
