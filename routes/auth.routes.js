@@ -35,23 +35,12 @@ router.post('/login', (req, res, next) => {
                 return
             }
 
-            if (bcrypt.compareSync(password, foundUser.password)) {
-
-                const { _id, email, username, avatar, role, battles, books, movies, comments } = foundUser
-                // desestructuramos el foundUser
-                const payload = { _id, email, username, avatar, role, battles, books, movies, comments }
-                // payload = Información que tenemos en cliente para renderizado condicional
-
-                const authToken = jwt.sign(
-                    payload,
-                    process.env.TOKEN_SECRET,
-                    { algorithm: 'HS256', expiresIn: "2h" }
-                )
-
+            if (foundUser.validatePassword(password)) {
+                const authToken = foundUser.signToken()
                 res.status(200).json({ authToken })
             }
             else {
-                res.status(401).json({ message: "Unable to authenticate the user" })
+                res.status(401).json({ message: "Password incorrect." })
             }
 
         })
