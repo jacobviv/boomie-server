@@ -15,13 +15,12 @@ router.get("/getAllBattles", (req, res, next) => {
 })
 
 
-router.get("/details/:Battle_id", verifyToken, (req, res, next) => {
+router.get("/details/:Battle_id", (req, res, next) => {
 
   const { Battle_id } = req.params
-  const { _id: owner } = req.payload
 
   Battle
-    .findById(Battle_id, { owner })
+    .findById(Battle_id)
     .then(response => res.json(response))
     .catch(err => next(err))
 })
@@ -38,25 +37,23 @@ router.post("/create", verifyToken, (req, res, next) => {
     .catch(err => next(err))
 })
 
-router.put('/edit/:Battle_id', verifyToken, (req, res, next) => {
+router.put('/edit/:Battle_id', (req, res, next) => {
 
   const { name, bookID, movieID } = req.body
   const { Battle_id } = req.params
-  const { _id: owner } = req.payload
 
   Battle
-    .findByIdAndUpdate(Battle_id, { name, bookID, movieID, owner })
+    .findByIdAndUpdate(Battle_id, { name, bookID, movieID })
     .then(response => res.json(response))
     .catch(err => next(err))
 })
 
-router.delete('/delete/:Battle_id', verifyToken, (req, res, next) => {
+router.delete('/delete/:Battle_id', (req, res, next) => {
 
   const { Battle_id } = req.params
-  const { _id: owner } = req.payload
 
   Battle
-    .findByIdAndDelete(Battle_id, { owner })
+    .findByIdAndDelete(Battle_id)
     .then(response => res.json(response))
     .catch(err => next(err))
 })
