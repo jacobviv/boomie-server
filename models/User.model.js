@@ -21,7 +21,8 @@ const userSchema = new Schema(
     avatar: {
       type: String,
       required: [false, 'La imagen de avatar se ha personalizado'],
-      default: "https://avatars.trackercdn.com/api/avatar/2/TrapOutTheLando.png"
+      default: "https://avatars.trackercdn.com/api/avatar/2/TrapOutTheLando.png",
+      set: value => value === '' ? "https://avatars.trackercdn.com/api/avatar/2/TrapOutTheLando.png" : value
     },
     role: {
       type: String,
