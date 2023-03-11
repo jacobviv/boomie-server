@@ -58,5 +58,19 @@ router.delete('/delete/:Battle_id', (req, res, next) => {
     .catch(err => next(err))
 })
 
+router.get("/battlesForCurrentUser", (req, res, next) => {
+
+  const currentUser = req.user;
+
+  Battle
+    .find({ owner: currentUser._id })
+    .sort({ name: 1 })
+    .select({ name: 1, bookID: 1, movieID: 1, owner: 1 })
+    .then(response => res.json(response))
+    .catch(err => next(err))
+})
+
+
+
 
 module.exports = router

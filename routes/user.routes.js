@@ -5,10 +5,10 @@ const User = require('./../models/User.model')
 
 router.get("/details/:id", (req, res, next) => {
 
-    const { User_id } = req.params
+    const { id } = req.params
 
     User
-        .findById(User_id)
+        .findById(id)
         .then(response => res.json(response))
         .catch(err => next(err))
 })
@@ -16,20 +16,20 @@ router.get("/details/:id", (req, res, next) => {
 router.put('/edit/:id', (req, res, next) => {
 
     const { username, email, avatar } = req.body
-    const { User_id } = req.params
+    const { id } = req.params
 
     User
-        .findByIdAndUpdate(User_id, { username, email, avatar })
+        .findByIdAndUpdate(id, { username, email, avatar })
         .then(response => res.json(response))
         .catch(err => next(err))
 })
 
 router.delete('/delete/:id', (req, res, next) => {
 
-    const { User_id } = req.params
+    const { id } = req.params
 
     User
-        .findByIdAndDelete(User_id)
+        .findByIdAndDelete(id)
         .then(response => res.json(response))
         .catch(err => next(err))
 })
