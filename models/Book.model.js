@@ -21,19 +21,19 @@ const bookSchema = new Schema(
         },
         bookCover: {
             type: String,
-            required: [true, 'Book Cover is required']
+            // required: [true, 'Book Cover is required']
         },
         bookLanguage: {
             type: String,
-            required: [true, 'Book Original Language is required']
+            // required: [true, 'Book Original Language is required']
         },
         bookFirstSentence: {
             type: String,
-            required: [true, 'Book First Sentence is required']
+            required: [false, 'Book First Sentence is required']
         },
         bookPublishingDate: {
             type: String,
-            required: [true, 'Book Publishing Date is required']
+            // required: [true, 'Book Publishing Date is required']
         },
         owner: {
             type: Schema.Types.ObjectId,
