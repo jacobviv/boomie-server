@@ -29,7 +29,7 @@ const bookSchema = new Schema(
         },
         bookFirstSentence: {
             type: String,
-            required: [false, 'Book First Sentence is required']
+            required: [false, 'Book First Sentence is not required']
         },
         bookPublishingDate: {
             type: String,

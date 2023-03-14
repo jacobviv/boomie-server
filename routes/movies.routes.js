@@ -1,6 +1,34 @@
-const router = require("express").Router()
+require('dotenv').config()
 
+const router = require("express").Router()
 const Movie = require('../models/Movie.model')
+const axios = require('axios')
+
+const apiTMDB = axios.create({
+  baseURL: 'https://api.themoviedb.org/3/'
+})
+
+router.get("/api/search/:movieTitle", (req, res, next) => {
+
+  const { movieTitle } = req.params
+
+  apiTMDB.get(`search/movie?api_key=${process.env.TMDB_API_KEY}&query=${movieTitle}`)
+    .then(({ data }) => {
+      res.send(data)
+    })
+    .catch(err => next(err))
+})
+
+router.get("/api/load/:movieKey", (req, res, next) => {
+
+  const { movieKey } = req.params
+
+  apiTMDB.get(`movie/${movieKey}/credits?api_key=${process.env.TMDB_API_KEY}`)
+    .then(({ data }) => {
+      res.send(data)
+    })
+    .catch(err => next(err))
+})
 
 router.get("/getAllMovies", (req, res, next) => {
 
@@ -23,30 +51,37 @@ router.get("/details/:Movie_id", (req, res, next) => {
     .catch(err => next(err))
 })
 
+router.get("/detailsByKey/:Movie_key", (req, res, next) => {
+
+  const { Movie_key } = req.params
+
+  Movie
+    .findOne({ movieID: Movie_key })
+    .then(response => res.json(response))
+    .catch(err => next(err))
+})
 
 router.post("/saveMovie", (req, res, next) => {
 
   const {
-    movieID,
-    movieTitle,
-    movieDirector,
-    movieRating,
-    moviePoster,
-    movieLanguage,
-    movieOverview,
-    movieReleaseDate
+    id,
+    title,
+    director,
+    vote_average,
+    overview,
+    release_date
   } = req.body
 
   Movie
     .create({
-      movieID,
-      movieTitle,
-      movieDirector,
-      movieRating,
-      moviePoster,
-      movieLanguage,
-      movieOverview,
-      movieReleaseDate
+      movieID: id,
+      movieTitle: title,
+      movieDirector: director,
+      movieRating: vote_average,
+      moviePoster: 'dummy',
+      movieLanguage: 'dummy',
+      movieOverview: overview,
+      movieReleaseDate: release_date,
     })
     .then(response => res.json(response))
     .catch(err => next(err))
@@ -72,6 +107,7 @@ router.delete('/delete/:Movie_id', (req, res, next) => {
     .then(response => res.json(response))
     .catch(err => next(err))
 })
+
 
 
 module.exports = router

@@ -22,19 +22,19 @@ const movieSchema = new Schema(
         },
         moviePoster: {
             type: String,
-            required: [true, 'Movie Poster is required']
+            // required: [true, 'Movie Poster is required']
         },
         movieLanguage: {
             type: String,
-            required: [true, 'Movie Original Language is required']
+            // required: [true, 'Movie Original Language is required']
         },
         movieOverview: {
             type: String,
-            required: [true, 'Movie Overview is required']
+            required: [false, 'Movie Overview is not required']
         },
         movieReleaseDate: {
             type: String,
-            required: [true, 'Movie Release Date is required']
+            // required: [true, 'Movie Release Date is required']
         },
         owner: {
             type: Schema.Types.ObjectId,
