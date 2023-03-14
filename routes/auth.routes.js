@@ -6,6 +6,25 @@ const User = require("../models/User.model")
 const jwt = require('jsonwebtoken')
 const { verifyToken } = require("../middlewares/verifyToken")
 
+
+
+router.get('/verify', verifyToken, (req, res, next) => {
+    res.json(req.payload)
+})
+
+router.get('/updateToken', verifyToken, (req, res, next) => {
+
+    const user_id = req.payload._id
+
+    User
+        .findById(user_id)
+        .then(user => {
+            const token = user.signToken()
+            res.json(token)
+        })
+        .catch(err => next(err))
+})
+
 router.post('/signup', (req, res, next) => {
 
     const { username, email, password, avatar } = req.body
@@ -47,8 +66,5 @@ router.post('/login', (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get('/verify', verifyToken, (req, res, next) => {
-    res.json(req.payload)
-})
 
 module.exports = router

@@ -72,7 +72,7 @@ router.get("/battlesForCurrentUser/:id", (req, res, next) => {
 
   Battle
     .find({ owner: id })
-    .sort({ name: 1 })
+    .sort({ createdAt: -1 })
     .select({ name: 1, bookID: 1, movieID: 1, owner: 1 })
     .then(response => res.json(response))
     .catch(err => next(err))
