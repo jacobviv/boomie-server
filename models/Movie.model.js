@@ -22,11 +22,11 @@ const movieSchema = new Schema(
         },
         moviePoster: {
             type: String,
-            // required: [true, 'Movie Poster is required']
+            required: [true, 'Movie Poster is required']
         },
         movieLanguage: {
             type: String,
-            // required: [true, 'Movie Original Language is required']
+            required: [true, 'Movie Original Language is required']
         },
         movieOverview: {
             type: String,
@@ -34,7 +34,7 @@ const movieSchema = new Schema(
         },
         movieReleaseDate: {
             type: String,
-            // required: [true, 'Movie Release Date is required']
+            required: [true, 'Movie Release Date is required']
         },
         owner: {
             type: Schema.Types.ObjectId,
