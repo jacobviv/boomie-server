@@ -5,8 +5,7 @@ const movieSchema = new Schema(
         movieID: {
             type: String,
             required: [true, 'Movie/TV show ID is required.'],
-            // required: [Valor esperado, Mensaje si no sale el valor esperado]
-            unique: true   // No es parte de Mongoose Native Validation
+            unique: true
         },
         movieTitle: {
             type: String,
@@ -22,11 +21,11 @@ const movieSchema = new Schema(
         },
         moviePoster: {
             type: String,
-            required: [true, 'Movie Poster is required']
+            required: [false, 'Movie Poster is not required']
         },
         movieLanguage: {
             type: String,
-            required: [true, 'Movie Original Language is required']
+            required: [false, 'Movie Original Language is not required']
         },
         movieOverview: {
             type: String,
@@ -34,7 +33,7 @@ const movieSchema = new Schema(
         },
         movieReleaseDate: {
             type: String,
-            required: [true, 'Movie Release Date is required']
+            required: [false, 'Movie Release Date is required']
         },
         owner: {
             type: Schema.Types.ObjectId,
