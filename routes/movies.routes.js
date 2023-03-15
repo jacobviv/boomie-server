@@ -61,6 +61,17 @@ router.get("/detailsByKey/:Movie_key", (req, res, next) => {
     .catch(err => next(err))
 })
 
+router.get('/getMovieByMovieID/:movieID', (req, res, next) => {
+
+  const { movieID } = req.params
+
+  Movie
+    .find({ movieID })
+    .then(([response]) => res.json(response))
+    .catch(err => next(err))
+
+})
+
 router.post("/saveMovie", (req, res, next) => {
 
   const {

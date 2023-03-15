@@ -40,7 +40,6 @@ router.get("/getAllBooks", (req, res, next) => {
     .catch(err => next(err))
 })
 
-
 router.get("/details/:Book_id", (req, res, next) => {
 
   const { Book_id } = req.params
@@ -61,6 +60,17 @@ router.get("/detailsByKey/:Book_key", (req, res, next) => {
     .catch(err => next(err))
 })
 
+router.get('/getBookByBookID/:bookID', (req, res, next) => {
+
+  const { bookID } = req.params
+
+  Book
+    .find({ bookID })
+    .then(([response]) => res.json(response))
+    .catch(err => next(err))
+
+})
+
 router.post("/saveBook", (req, res, next) => {
 
   const {
@@ -77,7 +87,7 @@ router.post("/saveBook", (req, res, next) => {
       bookID: key.replace('/works/', ''),
       bookTitle: title,
       bookAuthor: author_name[0],
-      bookRating: ratings_average,
+      bookRating: ratings_average * 2,
       bookFirstSentence: excerpt ?? 'dummy',
       bookPublishingDate: first_publish_date,
       bookCover: 'dummy',
