@@ -26,15 +26,49 @@ router.get("/details/:Battle_id", (req, res, next) => {
     .catch(err => next(err))
 })
 
+router.get('/getBattlesInfo', (req, res, next) => {
+
+  Battle
+    .find()
+    .select({ book: 1, movie: 1 })
+    .populate({
+      path: 'book',
+      select: 'bookRating'
+    })
+    .populate({
+      path: 'movie',
+      select: 'movieRating'
+    })
+    .then(response => {
+
+      const total = response.length
+      let bookTotalRating = response.map(((elm, idx) => {
+        console.log(idx)
+        return Number(elm?.book?.bookRating)
+      }))
+      bookTotalRating = +bookTotalRating.reduce((acc, curr) => acc + curr).toFixed(2)
+      let movieTotalRating = response.map(((elm, idx) => {
+        console.log(idx)
+        return Number(elm?.movie?.movieRating)
+      }))
+      movieTotalRating = +movieTotalRating.reduce((acc, curr) => acc + curr).toFixed(2)
+      const winner = bookTotalRating > movieTotalRating ? 'books' : 'movies'
+      res.json({ winner, bookTotalRating, movieTotalRating, total })
+
+    })
+    .catch(err => next(err))
+})
+
+
 
 router.post("/create", verifyToken, (req, res, next) => {
 
-  const { name, bookID, movieID } = req.body
+  const { name, bookID, movieID, book, movie } = req.body
   const { _id: owner } = req.payload
   const battles = owner.battles
 
   Battle
-    .create({ name, bookID, movieID, owner })
+    .create({ name, bookID, movieID, owner, book, movie })
     .then(battle => {
       User
         .findByIdAndUpdate(owner, { $addToSet: { battles: battle._id } }, { new: true })

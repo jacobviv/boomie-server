@@ -16,9 +16,17 @@ const battleSchema = new Schema(
             // required: [Valor esperado, Mensaje si no sale el valor esperado]
             unique: true   // No es parte de Mongoose Native Validation
         },
+        book: {
+            type: Schema.Types.ObjectId,
+            ref: 'Book'
+        },
+        movie: {
+            type: Schema.Types.ObjectId,
+            ref: 'Movie'
+        },
         comments: [{
-            ref: 'Comment',
-            type: Schema.Types.ObjectId
+            type: Schema.Types.ObjectId,
+            ref: 'Comment'
         }],
         owner: {
             type: Schema.Types.ObjectId,
