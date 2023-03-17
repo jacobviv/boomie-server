@@ -2,6 +2,9 @@ const router = require("express").Router()
 
 const Battle = require('./../models/Battle.model')
 const User = require('./../models/User.model')
+const Book = require('../models/Book.model')
+const Movie = require('../models/Movie.model')
+
 
 const { verifyToken } = require("../middlewares/verifyToken")
 
@@ -66,17 +69,23 @@ router.post("/create", verifyToken, (req, res, next) => {
   const { name, bookID, movieID, book, movie } = req.body
   const { _id: owner } = req.payload
   const battles = owner.battles
+  const promises = [Movie.findOne({ movieID: movieID }), Book.findOne({ bookID: bookID })]
 
-  Battle
-    .create({ name, bookID, movieID, owner, book, movie })
-    .then(battle => {
-      User
-        .findByIdAndUpdate(owner, { $addToSet: { battles: battle._id } }, { new: true })
-        .then(response => res.status(200).json(response))
+  Promise
+    .all(promises)
+    .then(([movie, book]) => {
+
+      Battle
+        .create({ name, bookID, movieID, owner, book: book._id, movie: movie._id })
+        .then(battle => {
+          User
+            .findByIdAndUpdate(owner, { $addToSet: { battles: battle._id } }, { new: true })
+            .then(response => res.status(200).json(response))
+            .catch(err => next(err))
+
+        })
         .catch(err => next(err))
-
     })
-    .catch(err => next(err))
 })
 
 router.put('/edit/:Battle_id', (req, res, next) => {
